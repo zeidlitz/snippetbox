@@ -19,7 +19,7 @@ func snippetView(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	msg := fmt.Sprint("Display a specific snippet with ID: %d", id)
+	msg := fmt.Sprintf("Display a specific snippet with ID: %d", id)
 	w.Write([]byte(msg))
 }
 
@@ -32,7 +32,7 @@ func main() {
 	mux.HandleFunc("/{$}", home)
 	mux.HandleFunc("/snippet/view/{id}", snippetView)
 	mux.HandleFunc("/snippet/create", snippetCreate)
-	log.Print("Starting server on :4000")
-	err := http.ListenAndServe(":4000", mux)
+	log.Print("Starting server on :4001")
+	err := http.ListenAndServe(":4001", mux)
 	log.Fatal(err)
 }
