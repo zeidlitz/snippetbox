@@ -7,14 +7,14 @@ import (
 )
 
 type Snippet struct {
-	ID 			int
-	Title 	string
+	ID      int
+	Title   string
 	Content string
 	Created time.Time
 	Expires time.Time
 }
 
-type SnippetModel struct { 
+type SnippetModel struct {
 	DB *sql.DB
 }
 
@@ -37,7 +37,7 @@ func (m *SnippetModel) Insert(title string, content string, expires int) (int, e
 	return int(id), nil
 }
 
-func (m *SnippetModel) Get(id int) (Snippet, error) { 
+func (m *SnippetModel) Get(id int) (Snippet, error) {
 	stmt := `
 	SELECT id, title, content, created, expires 
 	FROM snippets 

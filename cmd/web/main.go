@@ -3,18 +3,20 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"html/template"
 	"log/slog"
 	"net/http"
 	"os"
 
 	"github.com/zeidlitz/snippetbox/internal/models"
 
-	_ "github.com/go-sql-driver/mysql" 
+	_ "github.com/go-sql-driver/mysql"
 )
 
-type application struct { 
-	logger *slog.Logger
-	snippets *models.SnippetModel
+type application struct {
+	logger        *slog.Logger
+	snippets      *models.SnippetModel
+	templateCache map[string]*template.Template
 }
 
 func main() {
@@ -31,9 +33,16 @@ func main() {
 	}
 	defer db.Close()
 
+	templateCache, err := newTemplateCache()
+	if err != nil {
+		logger.Error(err.Error())
+		os.Exit(1)
+	}
+
 	app := &application{
-		logger: logger,
-		snippets: &models.SnippetModel{DB: db},
+		logger:        logger,
+		snippets:      &models.SnippetModel{DB: db},
+		templateCache: templateCache,
 	}
 
 	logger.Info("Starting server", "addr", *addr)
@@ -50,9 +59,9 @@ func openDB(dsn string) (*sql.DB, error) {
 	}
 
 	err = db.Ping()
-	if err != nil { 
-	db.Close()
-	return nil, err
+	if err != nil {
+		db.Close()
+		return nil, err
 	}
 	return db, nil
 }
