@@ -1,10 +1,10 @@
 package main
 
 import (
-	"time"
 	"bytes"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func (app *application) serverError(w http.ResponseWriter, r *http.Request, err error) {
