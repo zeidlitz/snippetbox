@@ -58,13 +58,19 @@ func main() {
 		sessionManager: sessionManager,
 	}
 
+	srv := &http.Server{
+		Addr:     *addr,
+		Handler:  app.routes(),
+		ErrorLog: slog.NewLogLogger(logger.Handler(), slog.LevelError),
+	}
+
 	logger.Info("Starting server", "addr", *addr)
-	err = http.ListenAndServe(*addr, app.routes())
+	err = srv.ListenAndServe()
 	logger.Error(err.Error())
 	os.Exit(1)
 }
 
-// Wraps sql.Open() and returns a sql.DB connection pool for a given DSN
+// Wraps sql.Open() and returns a sql.DB connection pool for a given DSNmain
 func openDB(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
