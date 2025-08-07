@@ -51,7 +51,6 @@ func (app *application) userLogoutPost(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "under construction, come back later")
 }
 
-
 func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil || id < 1 {
