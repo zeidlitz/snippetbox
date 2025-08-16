@@ -3,6 +3,8 @@ package main
 import (
 	"testing"
 	"time"
+
+	"github.com/zeidlitz/snippetbox/internal/assert"
 )
 
 func TestHumanDate(t *testing.T) {
@@ -36,10 +38,8 @@ func TestHumanDate(t *testing.T) {
 		// function containing the actual test for each case.
 		t.Run(tt.name, func(t *testing.T) {
 			hd := humanDate(tt.tm)
+			assert.Equal(t, hd, tt.want)
 
-			if hd != tt.want {
-				t.Errorf("got %q; want %q", hd, tt.want)
-			}
 		})
 	}
 }
