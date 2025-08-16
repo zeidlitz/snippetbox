@@ -12,10 +12,11 @@ func (app *application) routes() http.Handler {
 
 	mux.Handle("GET /static/", http.FileServerFS(ui.Files))
 
+	// Sainty check endpoint
+	mux.HandleFunc("GET /ping", ping)
+
 	// Unprotected application routes
 	dynamic := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
-
-	mux.Handle("GET /ping", dynamic.ThenFunc(ping))
 	mux.Handle("GET /{$}", dynamic.ThenFunc(app.home))
 	mux.Handle("GET /user/signup", dynamic.ThenFunc(app.userSignup))
 	mux.Handle("POST /user/signup", dynamic.ThenFunc(app.userSignupPost))
