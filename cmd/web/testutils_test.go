@@ -31,18 +31,18 @@ func extractCSRFToken(t *testing.T, body string) string {
 }
 
 func (ts *testServer) postForm(t *testing.T, urlPath string, form url.Values) (int, http.Header, string) {
-    rs, err := ts.Client().PostForm(ts.URL+urlPath, form)
-    if err != nil {
-        t.Fatal(err)
-    }
+	rs, err := ts.Client().PostForm(ts.URL+urlPath, form)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-    defer rs.Body.Close()
-    body, err := io.ReadAll(rs.Body)
-    if err != nil {
-        t.Fatal(err)
-    }
-    body = bytes.TrimSpace(body)
-    return rs.StatusCode, rs.Header, string(body)
+	defer rs.Body.Close()
+	body, err := io.ReadAll(rs.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	body = bytes.TrimSpace(body)
+	return rs.StatusCode, rs.Header, string(body)
 }
 
 func newTestApplication(t *testing.T) *application {

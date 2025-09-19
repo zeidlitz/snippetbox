@@ -125,7 +125,8 @@ func TestUserSignup(t *testing.T) {
 			form.Add("password", tt.userPassword)
 			form.Add("csrf_token", tt.csrfToken)
 
-			code, _, body := ts.postForm(t, "/user/signup", form)			assert.Equal(t, code, tt.wantCode)
+			code, _, body := ts.postForm(t, "/user/signup", form)
+			assert.Equal(t, code, tt.wantCode)
 
 			if tt.wantFormTag != "" {
 				assert.StringContains(t, body, tt.wantFormTag)
